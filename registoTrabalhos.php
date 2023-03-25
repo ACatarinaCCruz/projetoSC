@@ -18,12 +18,15 @@ if (isset($_GET["idDelete"])) {
     header("Location:registoTrabalhos.php");
 }
 
-if (isset($_POST['registoTrabalhos'])) {
+ 
+if (isset($_POST['registoTrabalho'])) {
 
     $observacao = $_POST['observacao'];
     $equipamentosUsados = $_POST['equipamentosUsados'];
     $duracao = $_POST['duracao'];
     $dia = $_POST['dia'];
+
+    var_dump( $equipamentosUsados, $dia, $duracao);
 
     $data = [
         'observacao' => $observacao,
@@ -32,7 +35,7 @@ if (isset($_POST['registoTrabalhos'])) {
         'dia' => $dia,
     ];
 
-    $sql = "INSERT INTO trabalhos(codTrabalho, observacao, equipamentosUsados, duracao, dia, codUtilizador, codEquipamento) VALUES ('', :observacao, :equipamentosUsados, :duracao, :dia, 1, 1)";
+    $sql = "INSERT INTO trabalhos(observacao, equipamentosUsados, duracao, dia, codUtilizador, codEquipamento) VALUES (:observacao, :equipamentosUsados, :duracao, :dia, 1,1)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute($data);
 }
@@ -56,7 +59,7 @@ if (isset($_POST['editarTrabalho'])) {
     $duracao = $_POST['duracao'];
     $equipamentosUsados = $_POST['equipamentosUsados'];
     $observacao = $_POST['observacao'];
-
+  
     $data = [
         'codTrabalho' => $codTrabalho,
         'observacao' => $duracao,
@@ -125,21 +128,22 @@ $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
                     </div><br>
                     <div class="form-group">
                         <label>Equipamentos Utilizados: </label>
-                        <select name="eqUsados" id="eqUsados">
-                            <option value="null" selected>Nenhum</option>
-                            <option value="RAM's">RAM</option>
-                            <option value="SSD's">SSD</option>
+                        <select name="equipamentosUsados" id="equipamentosUsados">
+                            <option value="null" >Nenhum</option>
+                            <option value="RAM">RAM</option>
+                            <option value="SSD">SSD</option>
                             <option value="Ratos">Ratos</option>
                         </select>
                     </div><br>
                     <div class="form-group">
                         <label>Duração</label>
-                        <input type="time" required maxlength="10" name="duracao" class="form-control" id="duracao" 
+                        <input type="time"  name="duracao" class="form-control" id="duracao" 
                         value="<?= $trabalho["duracao"] ?>">
+                       
                     </div><br>
                     <div class="form-group">
                         <label>Dia</label>
-                        <input type="date" required maxlength="10" name="dia" class="form-control" id="dia" 
+                        <input type="date" name="dia" class="form-control" id="dia" 
                         value="<?= $trabalho["dia"] ?>">
                     </div><br>
                     <?php
